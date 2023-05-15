@@ -24,7 +24,6 @@ public class DashboardPage {
 
     public int getCardBalance(DataHelper.Card card) {
         String text = $("[data-test-id='" + card.getId() + "']").text();
-        // TODO: перебрать все карты и найти по атрибуту data-test-id
         return extractBalance(text);
     }
 

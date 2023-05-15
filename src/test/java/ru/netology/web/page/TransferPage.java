@@ -12,6 +12,8 @@ public class TransferPage {
     private SelenideElement cardFrom = $("[data-test-id=from] input");
     private SelenideElement cardTo = $("[data-test-id=to] input");
     private SelenideElement transferButton = $("[data-test-id=action-transfer]");
+    private SelenideElement errorPopup = $("[data-test-id=error-notification]");
+    private SelenideElement cancelButton = $("[data-test-id=action-cancel]");
 
     public TransferPage() {
         amountField.shouldBe(visible);
@@ -21,18 +23,28 @@ public class TransferPage {
 
     public DashboardPage transferMoney(DataHelper.TransferInfo transferInfo) {
         String stringAmount = String.valueOf(transferInfo.getAmount());
+        amountField.clear();
         amountField.setValue(stringAmount);
+        cardFrom.clear();
         cardFrom.setValue(transferInfo.getFrom().getNumber());
         transferButton.click();
         return new DashboardPage();
     }
 
-    //TODO
-//    public DashboardPage transferMoneyBack (DataHelper.TransferInfo transferInfo) {
-//        String stringAmount = String.valueOf(transferInfo.getAmount());
-//        amountField.setValue(stringAmount);
-//        cardFrom.setValue(transferInfo.getFrom().getNumber());
-//        transferButton.click();
-//        return new DashboardPage();
-//    }
+    public TransferPage errorWhenTransferMoney(DataHelper.TransferInfo transferInfo) {
+        String stringAmount = String.valueOf(transferInfo.getAmount());
+        amountField.clear();
+        amountField.setValue(stringAmount);
+        cardFrom.clear();
+        cardFrom.setValue(transferInfo.getFrom().getNumber());
+        transferButton.click();
+        errorPopup.shouldBe(visible);
+        return this;
+    }
+
+    public DashboardPage clickCancel() {
+        cancelButton.click();
+        return new DashboardPage();
+    }
+
 }
